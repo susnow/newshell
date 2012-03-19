@@ -1,0 +1,6 @@
+## Interface: 40300
+## Title: test2
+## Author: susnow
+## Notes: 100k kills...
+
+test2.lua
