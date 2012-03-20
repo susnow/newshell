@@ -1,6 +1,9 @@
 ## Interface: 40300
-## Title: test2
+## Title: Wowshell 
 ## Author: susnow
 ## Notes: 100k kills...
 
-test2.lua
+
+locales.lua
+widget.lua
+core.lua
