@@ -19,14 +19,16 @@ locales.zhCN = {
 	ActionBar = "动作条(ActionBar)",
 	Map = "地图(Map)",
 	Chat = "聊天(Chat)",
-	CastSpell = "施法(CastSpell)",
-	Bag = "背包及银行(Container & Bank)",
+	CastSpell = "战斗及施法(Combat & CastSpell)",
+	Item = "物品及装备(Items & Equipments)",
 	Quest = "任务及探索(Quest)",
 	Archievement = "成就(Archievement)",
 	Raid = "团队及地下城(Raid & Instance)",
 	PVP = "战争游戏(PvP)",
-	Database = "数据库(Database)",
+	Database = "信息和数据(Infomations & Database)",
 	Business = "经商(Business)",
+	Class = "职业(Class)",
+	Custom = "第三方插件(Custom AddOns)",
 
 
 }

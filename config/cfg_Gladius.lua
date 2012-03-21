@@ -1,0 +1,1 @@
+﻿local L = {	zhCN = "竞技场助手",	zhTW = "競技場助手",	enUS = "Gladius",}wsRegisterOption('raid', 'Gladius', "Gladius", L[GetLocale()], L[GetLocale()], "Achievement_BG_3flagcap_nodeaths", function()	SlashCmdList["GLADIUS"]("");end);

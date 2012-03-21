@@ -3,7 +3,8 @@
 ## Author: susnow
 ## Notes: 100k kills...
 
-
 locales.lua
+addOnsList.lua
 widget.lua
+config.lua
 core.lua

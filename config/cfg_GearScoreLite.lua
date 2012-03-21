@@ -1,0 +1,1 @@
+﻿local L = {	zhCN = "装备评分(GS)",	zhTW = "裝備評分(GS)",	enUS = "GearScoreLite",}wsRegisterOption('general', 'GearScoreLite', "GearScoreLite", L[GetLocale()], L[GetLocale()], "Achievement_Arena_2v2_4", nil, nil, 15);

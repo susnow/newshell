@@ -59,7 +59,7 @@ function GUI:MainFrame()
 	
 
 
-	local scf = CreateFrame("Frame",nil,f)	
+	local scf = CreateFrame("Frame","Wowshell_MainFrame_ScrollFrame",f)	
 	scf:SetBackdrop({bgFile = bgTex,edgeFile = bgTex, edgeSize = 1,insets={top = 0, bottom = 0,left = 0,right = 0}})
 	scf:SetBackdropBorderColor(1,1,1,0)
 	scf:SetBackdropColor(0,0,0,0)
@@ -67,11 +67,6 @@ function GUI:MainFrame()
 	scf:SetPoint("TOPLEFT",f,50,-50)
 	f:SetScrollChild(scf)
 	scf:EnableMouseWheel(true)
-	for i =1, #categorys do
-		GUI:CategoryButton(scf,categorys[i],i,function() end)
-		--f:SetScrollChild(_G["Wowshell_Category_"..categorys[i].."Button"])
-		--f:UpdateScrollChildRect()
-	end
 	local sld = CreateFrame("Slider","Wowshell_MainFrame_SliderBar",f)
 	sld:SetSize(10,40)
 	sld:SetPoint("TOPLEFT",scf,"TOPRIGHT")
@@ -97,14 +92,14 @@ function GUI:MainFrame()
 	--	end
 
 	end)
-	sld:SetScript("OnValueChanged",function(self,v) scf:SetVerticalScroll(v) end)
+	sld:SetScript("OnValueChanged",function(self,v)  end)
 
-	GUI:MainFrameButton(f,"close",{"TOPRIGHT",-10,-10},function()  end)
-	GUI:MainFrameButton(f,"forward",{"TOPRIGHT",-50,-10},function()  end)
-	GUI:MainFrameButton(f,"back",{"TOPRIGHT",-90,-10},function()  end)
-	GUI:MainFrameButton(f,"reload",{"TOPRIGHT",-130,-10},function() ReloadUI() end)
-	GUI:SearchBox(f)
-
+	--GUI:MainFrameButton(f,"close",{"TOPRIGHT",-10,-10},function()  end)
+	--GUI:MainFrameButton(f,"forward",{"TOPRIGHT",-50,-10},function()  end)
+	--GUI:MainFrameButton(f,"back",{"TOPRIGHT",-90,-10},function()  end)
+	--GUI:MainFrameButton(f,"reload",{"TOPRIGHT",-130,-10},function() ReloadUI() end)
+	--GUI:SearchBox(f)
+	f.scf = scf
 
 end
 
@@ -148,6 +143,7 @@ function GUI:SearchBox(parent)
 	editbox:SetFontObject(ChatFontNormal)
 	editbox:SetBackdrop({bgFile = bgTex,edgeFile = bgTex, edgeSize = 1,insets={top = 0, bottom = 0,left = 0,right = 0}})
 	editbox:SetBackdropColor(.2,.2,.2,.5)
+	--editbox:SetBackdropBorderColor(1,1,1,1)
 	editbox:SetBackdropBorderColor(.1,.1,.1,1)
 	editbox:SetTextInsets(5,0,0,0)
 	editbox:SetText(L["SearchBoxText"])
@@ -195,15 +191,10 @@ end
 function GUI:CategoryButton(parent,name,index,hander)
 	local button = CreateFrame("Button","Wowshell_Category_"..name:gsub("^%l",string.upper).."Button",parent)
 	button:SetSize(parent:GetWidth() - 100,20)
-	if index == 1 then 
-		button:SetPoint("TOPLEFT",parent,50,-100)	
-	elseif index >1 then 
-		button:SetPoint("TOPLEFT",parent,50,0-index*120)
-	end
 	button.bg = button:CreateTexture(nil,"OVERLAY")
 	button.bg:SetTexture(bgTex)
 	button.bg:SetAllPoints(button)
-	button.bg:SetVertexColor(.3,.3,.3,.2)
+	button.bg:SetVertexColor(.3,.3,.3,0) --.2
 	button.fw = button:CreateFontString(nil,"OVERLAY","ChatFontNormal")
 	button.fw:SetPoint("LEFT",button)
 	do 
@@ -223,8 +214,61 @@ function GUI:CategoryButton(parent,name,index,hander)
 	--parent.category.index = button
 end
 
+function GUI:CategoryButtonSetPoint(categorys,index)
+	local button = _G["Wowshell_Category_"..categorys[index]:gsub("^%l",string.upper).."Button"]
+	if index == 1 then 
+		button:SetPoint("TOPLEFT",_G["Wowshell_MainFrame_ScrollFrame"],50,-80)	
+	elseif index >1 then 
+		button:SetPoint("TOPLEFT",_G["Wowshell_Category"..categorys[index-1].."_ChildFrame"],"BOTTOMLEFT",0,0)
+	end
+end
 
-GUI:MainFrame()
+function GUI:CategoryChildFrame(parent)
+	local f = CreateFrame("Frame","Wowshell_Category"..parent.."_ChildFrame",_G["Wowshell_Category_"..parent.."Button"])
+	--f:SetSize(_G["Wowshell_Category_"..parent.."Button"]:GetWidth(),80)
+	f:SetBackdrop({bgFile = bgTex,edgeFile = bgTex, edgeSize = 1,insets={top = 0, bottom = 0,left = 0,right = 0}})
+	f:SetBackdropColor(1,1,1,0) -- .2
+	f:SetBackdropBorderColor(0,0,0,0) -- 1
+	f:SetPoint("TOPLEFT",_G["Wowshell_Category_"..parent.."Button"],"BOTTOMLEFT")
+end
+
+function GUI:CategoryChildFrameSetSize(parent,index)
+	local f = _G["Wowshell_Category"..parent.."_ChildFrame"]
+	local num = math.ceil(index/5)
+	for i = 1, num do
+		f:SetSize(_G["Wowshell_Category_"..parent.."Button"]:GetWidth(),100*i)
+	end
+end
+
+function GUI:CategoryChildFrameButtons(parent,index)
+	local button = CreateFrame("Button","Wowshell_Category"..parent.."_ChildFrame_Button"..index,_G["Wowshell_Category"..parent.."_ChildFrame"])
+	button:SetSize(50,50)
+	button:SetBackdrop({bgFile = bgTex,edgeFile = bgTex, edgeSize = 1,insets={top = 2, bottom = -2,left = 2,right = 2}})
+	button:SetBackdropColor(.3,.3,.3,.2)
+	button:SetBackdropBorderColor(0,0,0,1)
+	button.bg = button:CreateTexture(nil,"OVERLAY")
+	button.bg:SetPoint("TOPLEFT",1,-1)
+	button.bg:SetPoint("BOTTOMRIGHT",-1,1)
+	--button.bg:SetTexture([[Interface/ICONS/Ability_Hunter_MarkedForDeath]])
+	button.bg:SetTexCoord(.1,.9,.1,.9)
+	button.text = button:CreateFontString(nil,"OVERLAY","ChatFontNormal")
+	button.text:SetPoint("TOP",button,"BOTTOM",0,-10)
+end
+
+function GUI:CategoryChildFrameButtonsSetPoint(parent,index)
+	local button = _G["Wowshell_Category"..parent.."_ChildFrame_Button"..index]
+	local modNum = 5
+	if index % modNum - 1 ~= 0 and index > modNum then 
+		button:SetPoint("TOPLEFT",_G["Wowshell_Category"..parent.."_ChildFrame_Button"..(index-1)],"TOPRIGHT",90,0)
+	elseif index % modNum - 1 == 0 and index > modNum then
+		button:SetPoint("TOPLEFT",_G["Wowshell_Category"..parent.."_ChildFrame_Button"..(index-modNum)],"BOTTOMLEFT",0,-40)
+	elseif index % modNum - 1 ~= 0 and index <= modNum then
+		button:SetPoint("TOPLEFT",_G["Wowshell_Category"..parent.."_ChildFrame_Button"..(index-1)],"TOPRIGHT",90,0)
+	elseif index == 1 then
+		button:SetPoint("TOPLEFT",_G["Wowshell_Category"..parent.."_ChildFrame"],30,-20)	
+	end
+end
+
 ----categorys list
 --local categorys = {"头像(UnitFrame)","动作条(ActionBar)","地图(Map)","团队(Raid)","战争游戏(PvP)"}
 --
@@ -428,3 +472,5 @@ GUI:MainFrame()
 --		end
 --	end)
 --end)
+
+ns.GUI = GUI
