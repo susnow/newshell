@@ -15,92 +15,118 @@ local GUI = CreateFrame("Frame")
 local categorys = { "UnitFrame","ActionBar","Map","Chat","CastSpell","Bag","Quest","Archievement","Raid","PVP","Database","Business"}
 
 function GUI:MainFrame() 
-	local f = CreateFrame("ScrollFrame","Wowshell_MainFrame",UIParent)
-	f.nextUpdate = 0
-	f:SetSize(800,600)
-	f:SetPoint("CENTER")
-	f:SetBackdrop({bgFile = bgTex,edgeFile = bgTex, edgeSize = 1,insets={top = 0, bottom = 0,left = 0,right = 0}})
-	f:SetBackdropColor(.1,.1,.1,.5)
-	f:SetBackdropBorderColor(0,0,0,1)
-	f.logo = CreateFrame("Button","Wowshell_Logo",f)
-	f.logo:SetSize(50,50)
-	f.logo:SetPoint("TOPLEFT",10,-10)
-	f.logo.bg = f.logo:CreateTexture(nil,"OVERLAY")
-	f.logo.bg:SetAllPoints(f.logo)
-	f.logo.bg:SetTexture(logoTex)
-	f.logo.title = f.logo:CreateFontString(nil,"OVERLAY","ChatFontNormal")
-	f.logo.title:SetPoint("BOTTOMLEFT",f.logo,"BOTTOMRIGHT",10,0)
+	local mf = CreateFrame("ScrollFrame","Wowshell_MainFrame",UIParent)
+	mf.nextUpdate = 0
+	mf:SetSize(800,600)
+	mf:SetPoint("CENTER")
+	mf:SetBackdrop({bgFile = bgTex,edgeFile = bgTex, edgeSize = 1,insets={top = 0, bottom = 0,left = 0,right = 0}})
+	mf:SetBackdropColor(.1,.1,.1,.5)
+	mf:SetBackdropBorderColor(0,0,0,1)
+	mf.logo = CreateFrame("Button","Wowshell_Logo",mf)
+	mf.logo:SetSize(50,50)
+	mf.logo:SetPoint("TOPLEFT",10,-10)
+	mf.logo.bg = mf.logo:CreateTexture(nil,"OVERLAY")
+	mf.logo.bg:SetAllPoints(mf.logo)
+	mf.logo.bg:SetTexture(logoTex)
+	mf.logo.title = mf.logo:CreateFontString(nil,"OVERLAY","ChatFontNormal")
+	mf.logo.title:SetPoint("BOTTOMLEFT",mf.logo,"BOTTOMRIGHT",10,0)
 	do 
-		local font,size,flag = f.logo.title:GetFont()
-		f.logo.title:SetFont(font,38,"OUTLINE")
+		local font,size,flag = mf.logo.title:GetFont()
+		mf.logo.title:SetFont(font,38,"OUTLINE")
 	end
-	f.logo.title:SetText(L["Wowshell"])	
+	mf.logo.title:SetText(L["Wowshell"])	
 
-	f.opLine = f:CreateTexture(nil,"OVERLAY")
-	f.opLine:SetSize(f:GetWidth()-100,1)
-	f.opLine:SetPoint("TOPLEFT",f.logo,"BOTTOMLEFT",50,-10)
-	f.opLine:SetTexture(bgTex)
-	f.opLine:SetGradient("HORIZONTAL",1,1,1,.3,.3,.3)
-	f.resize = CreateFrame("Button","Wowshell_ResizeButton",f)
-	f.resize:SetSize(10,10)
-	f.resize:SetPoint("BOTTOMRIGHT",f,-1,1)
-	f.resize.bg = f.resize:CreateTexture(nil,"OVERLAY")
-	f.resize.bg:SetAllPoints(f.resize)
-	f.resize.bg:SetTexture(tex.."resize3")
-	f.resize.bg:SetVertexColor(1,1,1,1)
+	mf.opLine = mf:CreateTexture(nil,"OVERLAY")
+	mf.opLine:SetSize(mf:GetWidth()-100,1)
+	mf.opLine:SetPoint("TOPLEFT",mf.logo,"BOTTOMLEFT",50,-10)
+	mf.opLine:SetTexture(bgTex)
+	mf.opLine:SetGradient("HORIZONTAL",1,1,1,.3,.3,.3)
+	mf.resize = CreateFrame("Button","Wowshell_ResizeButton",mf)
+	mf.resize:SetSize(10,10)
+	mf.resize:SetPoint("BOTTOMRIGHT",mf,-1,1)
+	mf.resize.bg = mf.resize:CreateTexture(nil,"OVERLAY")
+	mf.resize.bg:SetAllPoints(mf.resize)
+	mf.resize.bg:SetTexture(tex.."resize3")
+	mf.resize.bg:SetVertexColor(1,1,1,1)
 
-	f.resize:SetScript("OnEnter",function(self)
+	mf.resize:SetScript("OnEnter",function(self)
 		self.bg:SetVertexColor(1,.5,.25)
 	end)
-	f.resize:SetScript("OnLeave",function(self)
+	mf.resize:SetScript("OnLeave",function(self)
 		self.bg:SetVertexColor(1,1,1)
 	end)
+	mf:EnableMouse(true)
+	mf:RegisterForDrag("LeftButton")
 
+--	mf.drag = CreateFrame("Frame",nil,mf)
+--	mf.drag:SetSize(80,mf:GetHeight()-80)
+--	mf.drag:SetPoint("BOTTOMRIGHT",mf,0,10)
+--	mf.drag.tip = mf.drag:CreateFontString(nil,"OVERLAY","ChatFontNormal")
+--	mf.drag.tip:SetPoint("TOPRIGHT",mf.drag)
+--	mf.drag.tip:SetText(L["DragTip"])
+--	mf.drag.tip:Hide()
+--
+--	mf.drag:SetScript("OnEnter",function(self)
+--		self.tip:Show()
+--	end)
+--	mf.drag:SetScript("OnLeave",function(self)
+--		self.tip:Hide()
+--	end)
+	--mf.drag:SetFrameLevel(mf:GetFrameLevel()-1)
+
+	local f = CreateFrame("ScrollFrame","Wowshell_MainFrame_ScrollFrame_Parent",mf)
+	f:SetSize(mf:GetWidth()-100,mf:GetHeight()-80)--2500)--520)
+	f:SetPoint("TOPLEFT",mf,0,-80)
 	
 
-
 	local scf = CreateFrame("Frame","Wowshell_MainFrame_ScrollFrame",f)	
+	scf.nextUpdate = 0
 	scf:SetBackdrop({bgFile = bgTex,edgeFile = bgTex, edgeSize = 1,insets={top = 0, bottom = 0,left = 0,right = 0}})
 	scf:SetBackdropBorderColor(1,1,1,0)
 	scf:SetBackdropColor(0,0,0,0)
 	scf:SetSize(f:GetWidth()-10,f:GetHeight()-10)
 	scf:SetPoint("TOPLEFT",f,50,-50)
 	f:SetScrollChild(scf)
-	scf:EnableMouseWheel(true)
-	local sld = CreateFrame("Slider","Wowshell_MainFrame_SliderBar",f)
-	sld:SetSize(10,40)
-	sld:SetPoint("TOPLEFT",scf,"TOPRIGHT")
-	sld:SetBackdrop({bgFile = bgTex,edgeFile = bgTex, edgeSize = 1,insets={top = 0, bottom = 0,left = 0,right = 0}})
-	sld:SetOrientation("HORIZONTAL")
-	sld:SetBackdropColor(.1,.1,.1,.5)
-	sld:SetBackdropBorderColor(0,0,0,1)
-	sld:SetMinMaxValues(1,1000)
-	sld:SetValue(1)
-	sld:SetValueStep(1)
-	sld:EnableMouseWheel(true)
-	scf:SetScript("OnMouseWheel",function(self,delta)
-	--	print(delta)
-	--	local x
-	--	if delta == -1 then
-	--		x = sld:GetValue()
-	--		print(x)
-	--	elseif delta == 1 then
-	--		x = sld:GetValue()
-	--		print(x)
-	--	else
-	--		print(sld:GetValue())
-	--	end
-
+	
+	mf:SetScript("OnDragStart",function(self,button)
+		local curX, curY = GetCursorPosition()
+		local curScr = f:GetVerticalScroll()
+		self:SetScript("OnUpdate",function(self,elapsed)
+			self.nextUpdate = self.nextUpdate + elapsed
+			if self.nextUpdate > 0.1 then
+				local tmpX, tmpY = GetCursorPosition()
+				if tmpY > curY then -- up
+					f:SetVerticalScroll((curScr + (tmpY-curY)))	
+				elseif tmpY < curY then --bottom
+					local tmpScr = f:GetVerticalScroll()
+					f:SetVerticalScroll((curScr - (curY-tmpY)))	
+					if tmpScr < -60 then
+						self:SetScript("OnUpdate",nil)
+						f:SetVerticalScroll(0)
+					end
+				else
+					
+				end
+				self.nextUpdate = 0
+			end
+		end)
 	end)
-	sld:SetScript("OnValueChanged",function(self,v)  end)
+	
+	mf:SetScript("OnDragStop",function(self,button)
+		self:SetScript("OnUpdate",nil)
+	end)
 
-	--GUI:MainFrameButton(f,"close",{"TOPRIGHT",-10,-10},function()  end)
-	--GUI:MainFrameButton(f,"forward",{"TOPRIGHT",-50,-10},function()  end)
-	--GUI:MainFrameButton(f,"back",{"TOPRIGHT",-90,-10},function()  end)
-	--GUI:MainFrameButton(f,"reload",{"TOPRIGHT",-130,-10},function() ReloadUI() end)
-	--GUI:SearchBox(f)
-	f.scf = scf
+	mf:SetScript("OnMouseDown",function(self,button)
+		if IsLeftControlKeyDown() and button == "LeftButton" then
+			self:SetMovable(true)
+			self:StartMoving()
+		end
+	end)
+	mf:SetScript("OnMouseUp",function(self,button)
+		self:StopMovingOrSizing()
+	end)
 
+	mf.scf = scf
 end
 
 function GUI:MainFrameButton(parent,name,point,handler)
@@ -217,7 +243,7 @@ end
 function GUI:CategoryButtonSetPoint(categorys,index)
 	local button = _G["Wowshell_Category_"..categorys[index]:gsub("^%l",string.upper).."Button"]
 	if index == 1 then 
-		button:SetPoint("TOPLEFT",_G["Wowshell_MainFrame_ScrollFrame"],50,-80)	
+		button:SetPoint("TOPLEFT",_G["Wowshell_MainFrame_ScrollFrame"],50,-20)	
 	elseif index >1 then 
 		button:SetPoint("TOPLEFT",_G["Wowshell_Category"..categorys[index-1].."_ChildFrame"],"BOTTOMLEFT",0,0)
 	end
@@ -252,7 +278,9 @@ function GUI:CategoryChildFrameButtons(parent,index)
 	--button.bg:SetTexture([[Interface/ICONS/Ability_Hunter_MarkedForDeath]])
 	button.bg:SetTexCoord(.1,.9,.1,.9)
 	button.text = button:CreateFontString(nil,"OVERLAY","ChatFontNormal")
+	button.text:SetSize(button:GetWidth()+24,30)
 	button.text:SetPoint("TOP",button,"BOTTOM",0,-10)
+	button.text:SetWordWrap(true)
 end
 
 function GUI:CategoryChildFrameButtonsSetPoint(parent,index)
@@ -267,6 +295,35 @@ function GUI:CategoryChildFrameButtonsSetPoint(parent,index)
 	elseif index == 1 then
 		button:SetPoint("TOPLEFT",_G["Wowshell_Category"..parent.."_ChildFrame"],30,-20)	
 	end
+end
+
+function GUI:StatsBar()
+	local mf = _G["Wowshell_MainFrame"]
+	local bar = CreateFrame("Frame","Wowshell_StatesBar",mf)
+	bar:SetSize(mf:GetWidth(),30)
+	bar:SetPoint("TOPLEFT",mf,"BOTTOMLEFT")
+	bar.uLog = CreateFrame("Button","Wowshell_UpdateLog_Button",bar)
+	bar.uLog:SetSize(150,bar:GetHeight())
+	bar.uLog:SetPoint("BOTTOMRIGHT",bar)
+	bar.uLog.text = bar.uLog:CreateFontString(nil,"OVERLAY","ChatFontNormal")
+	do 
+		local font,size,flag = bar.uLog.text:GetFont()
+		bar.uLog.text:SetFont(font,size,"OUTLINE")
+	end
+	bar.uLog.text:SetText("最后更新于 2012-03-22")
+	bar.uLog.text:SetPoint("RIGHT",bar.uLog)
+	bar.uLog:SetScript("OnEnter",function(self)
+		self.text:SetTextColor(1,.5,.25)
+		self.text:SetText(format(L["UpdateLogTip"],"2746"))
+	end)
+	bar.uLog:SetScript("OnLeave",function(self)
+		self.text:SetTextColor(1,1,1)
+	end)
+	
+end
+
+function GUI:UpdateLog()
+
 end
 
 ----categorys list

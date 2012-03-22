@@ -13,6 +13,8 @@ locales.zhCN = {
 	reload = "重载界面",
 	SearchBoxText = "搜索插件",
 	SearchTip = "根据输入的关键字查找插件",
+	DragTip = "拖动区域",
+	UpdateLogTip = "单击查看 %s 的更新记录",
 
 	--category
 	UnitFrame = "头像(UnitFrame)",
