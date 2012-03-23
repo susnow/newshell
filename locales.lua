@@ -14,7 +14,13 @@ locales.zhCN = {
 	SearchBoxText = "搜索插件",
 	SearchTip = "根据输入的关键字查找插件",
 	DragTip = "拖动区域",
-	UpdateLogTip = "单击查看 %s 的更新记录",
+	UpdateLogTip = "单击查看 %s 的更新日志",
+	UpdateLogTipClose = "单击关闭更新日志窗口",
+	UpdateLog = "最后更新于 %s",
+	TipAddOnsLoad = "对 %s(%s) 的改动将在重载界面后生效",
+	TipAddOnsCancel = "您取消了对 %s(%s) 的改动",
+	Log = "更新日志",
+	LeftClick = "左键单击启用/禁用插件",
 
 	--category
 	UnitFrame = "头像(UnitFrame)",
@@ -31,6 +37,11 @@ locales.zhCN = {
 	Business = "经商(Business)",
 	Class = "职业(Class)",
 	Custom = "第三方插件(Custom AddOns)",
+
+	LOW = "此插件在运行时占用资源很低,基本不会影响游戏的流畅度",
+	MIDDLE = "此插件在运行时占用资源中等,有小概率会影响游戏流畅度",
+	HIGH = "此插件在运行时占用硬件资源较高,有很大概率会影响游戏的流畅度",
+	VERYHIGH = "此插件在运行时占用资源极高,建议在使用完毕后及时禁用",
 
 
 }

@@ -3,6 +3,12 @@
 ## Author: susnow
 ## Notes: 100k kills...
 
+
+## X-Version: 4.3.3.2748
+## X-UpdateDate: 2012-03-31
+
+wsLocale.lua
+
 locales.lua
 addOnsList.lua
 widget.lua
